@@ -7,13 +7,14 @@ import re
 # from the Brookings Institute, and prints out their title and lede
 # (or the first paragraph)
 #################
-def getArticle(url):
+def getArticle(url): 
+	# takes in a URL for an article
 	print("URL: "+url)
 	html = urlopen(url)
 	articleObj = BeautifulSoup(html.read())
 	#Get article title. This should have a class name ending in "title"
-	title = articleObj.find("h1", {"class":re.compile(".*title")}).get_text()
-
+	#Finds the header. 
+	title = articleObj.find("h1").get_text()
 	#Get the main body of the article text
 	body = articleObj.find("div", {"itemprop":"articleBody"})
 	lede = body.find("div", {"class":"lede"})
@@ -21,6 +22,8 @@ def getArticle(url):
 		#If an official lede does not exist, get the first paragraph
 		lede = body.find("p")
 	print("TITLE: "+title)
+	metadata = articleObj.find("p", {"class":"metadata"}
+	print("METADATA: "+metadata.get_text())
 	print("LEDE: "+lede.get_text())
 	print("-----------------------------")
 
